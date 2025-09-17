@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ultimate College Essay Builder</title>
+<style>
+  body { font-family: Arial, sans-serif; background: #f7fafc; padding: 20px; }
+  h1 { font-size: 2em; margin-bottom: 10px; }
+  label { display: block; margin: 10px 0 4px; font-weight: bold; position: relative; }
+  label:hover span.tip { display: block; position: absolute; top: 100%; left: 0; background: #e2e8f0; padding: 5px; font-size: 0.85em; border-radius: 4px; width: max-content; max-width: 300px; }
+  span.tip { display: none; }
+  input[type="text"], textarea { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; }
+  textarea { resize: vertical; }
+  .preview { background: #fff; padding: 15px; border-radius: 5px; margin-top: 10px; white-space: pre-wrap; font-family: 'Times New Roman', serif; line-height: 2; font-size: 12pt; }
+  .word-count { margin-top: 5px; }
+  .in-range { color: green; }
+  .out-range { color: red; }
+  .button { margin: 5px 5px 5px 0; padding: 6px 12px; border: 1px solid #333; border-radius: 4px; cursor: pointer; }
+  .tips-box { background: #e2e8f0; padding: 10px; border-radius: 5px; margin-top: 10px; }
+  .tips-box ul { margin: 0; padding-left: 20px; }
+  .title-center { text-align: center; font-weight: bold; text-decoration: underline; margin: 10px 0; }
+  .field-wordcount { font-size: 0.85em; color: #555; }
+  .focus-mode { margin: 5px 0; padding: 3px 8px; cursor: pointer; border: 1px solid #333; border-radius: 4px; background: #fff; display: inline-block; font-size: 0.85em; }
+  .hidden { display: none; }
+  .section-container { margin-bottom: 10px; }
+</style>
+</head>
+<body>
+
+<h1>Ultimate College Essay Builder</h1>
+
+<div class="section-container">
+<label>Essay Title <span class="tip">Your essay’s main title; make it catchy and reflective of your story.</span></label>
+<input type="text" id="title">
+</div>
+
+<div class="section-container">
+<label>MLA Header (Name, School, Course, Date) <span class="tip">Standard MLA header; first page only.</span></label>
+<textarea id="header" rows="3"></textarea>
+</div>
+
+<div class="section-container">
+<label>Hook <span class="tip">Grab attention with a bold opening line or statement.</span></label>
+<button class="focus-mode" onclick="toggleFocus('hook')">Focus</button>
+<textarea id="hook" rows="2"></textarea>
+<div class="field-wordcount" id="hookCount"></div>
+</div>
+
+<div class="section-container">
+<label>Thesis <span class="tip">Your central idea; one sentence summarizing your essay’s message.</span></label>
+<button class="focus-mode" onclick="toggleFocus('thesis')">Focus</button>
+<textarea id="thesis" rows="2"></textarea>
+<div class="field-wordcount" id="thesisCount"></div>
+</div>
+
+<div class="section-container">
+<label>Anecdote <span class="tip">Share a personal story illustrating your growth or journey.</span></label>
+<button class="focus-mode" onclick="toggleFocus('anecdote')">Focus</button>
+<textarea id="anecdote" rows="4"></textarea>
+<div class="field-wordcount" id="anecdoteCount"></div>
+</div>
+
+<div class="section-container">
+<label>Body Paragraph 1 <span class="tip">Claim + Evidence + Explanation.</span></label>
+<button class="focus-mode" onclick="toggleFocus('body1')">Focus</button>
+<textarea id="body1" rows="3"></textarea>
+<div class="field-wordcount" id="body1Count"></div>
+</div>
+
+<div class="section-container">
+<label>Body Paragraph 2 <span class="tip">Claim + Evidence + Explanation.</span></label>
+<button class="focus-mode" onclick="toggleFocus('body2')">Focus</button>
+<textarea id="body2" rows="3"></textarea>
+<div class="field-wordcount" id="body2Count"></div>
+</div>
+
+<div class="section-container">
+<label>Body Paragraph 3 <span class="tip">Claim + Evidence + Explanation.</span></label>
+<button class="focus-mode" onclick="toggleFocus('body3')">Focus</button>
+<textarea id="body3" rows="3"></textarea>
+<div class="field-wordcount" id="body3Count"></div>
+</div>
+
+<div class="section-container">
+<label>Reflection <span class="tip">What did you learn or how did you grow?</span></label>
+<button class="focus-mode" onclick="toggleFocus('reflection')">Focus</button>
+<textarea id="reflection" rows="3"></textarea>
+<div class="field-wordcount" id="reflectionCount"></div>
+</div>
+
+<div class="section-container">
+<label>Conclusion <span class="tip">Tie back to thesis and leave a lasting impression.</span></label>
+<button class="focus-mode" onclick="toggleFocus('conclusion')">Focus</button>
+<textarea id="conclusion" rows="3"></textarea>
+<div class="field-wordcount" id="conclusionCount"></div>
+</div>
+
+<div>
+<button class="button" onclick="combineDraft()">Combine Draft</button>
+<button class="button" onclick="downloadDraft()">Download Draft (.txt)</button>
+<button class="button" onclick="resetAll()">Clear All Fields</button>
+<button class="button" onclick="exitFocus()">Exit Focus Mode</button>
+</div>
+
+<div class="preview" id="preview"></div>
+<div class="word-count" id="wordCount"></div>
+<div class="field-wordcount" id="autosaveTime"></div>
+
+<div class="tips-box">
+  <h3>Checklist & Tips</h3>
+  <ul>
+    <li>Hook grabs attention</li>
+    <li>Thesis is clear and insightful</li>
+    <li>Anecdote personalizes your story</li>
+    <li>Each body paragraph has Claim + Evidence + Explanation</li>
+    <li>Reflection shows growth</li>
+    <li>Conclusion ties back to thesis</li>
+    <li>Essay is 250–650 words</li>
+    <li>MLA header is included</li>
+    <li>Title is centered and editable</li>
+    <li>Double-spacing simulated in preview</li>
+    <li>Use Focus Mode to work on one section at a time</li>
+  </ul>
+</div>
+
+<script>
+// Elements and field tracking
+const fields = ['title','header','hook','thesis','anecdote','body1','body2','body3','reflection','conclusion'];
+let focusedField = null;
+
+// Load saved data if available
+window.onload = () => {
+  fields.forEach(f => {
+    const saved = localStorage.getItem(f);
+    if(saved) document.getElementById(f).value = saved;
+    updateFieldWordCount(f);
+  });
+  combineDraft();
+};
+
+// Autosave function
+fields.forEach(f => {
+  document.getElementById(f).addEventListener('input', (e) => {
+    localStorage.setItem(f, e.target.value);
+    updateFieldWordCount(f);
+    combineDraft();
+    document.getElementById('autosaveTime').innerText = `Last saved: ${new Date().toLocaleTimeString()}`;
+  });
+});
+
+function updateFieldWordCount(f) {
+  const val = document.getElementById(f).value;
+  const count = val.split(/\s+/).filter(Boolean).length;
+  const elem = document.getElementById(f + 'Count');
+  if(elem) elem.innerText = `Word count: ${count}`;
+}
+
+function combineDraft() {
+  const title = document.getElementById('title').value;
+  const header = document.getElementById('header').value;
+  const content = fields.slice(2).map(f => document.getElementById(f).value).join('\n\n');
+
+  const draft = `${header}
+
+${title}
+
+${content}`;
+
+  document.getElementById('preview').innerText = draft;
+
+  const wordCount = draft.split(/\s+/).filter(Boolean).length;
+  const wcElem = document.getElementById('wordCount');
+  wcElem.innerText = `Total Word Count: ${wordCount}`;
+  wcElem.className = 'word-count ' + (wordCount >= 250 && wordCount <= 650 ? 'in-range' : 'out-range');
+}
+
+function downloadDraft() {
+  const text = document.getElementById('preview').innerText.replace(/\n/g, '\n\n'); // double-spacing
+  const filename = document.getElementById('title').value.replace(/[^a-z0-9]/gi, '_') || 'college_essay';
+  const blob = new Blob([text], { type: 'text/plain' });
+  const link = document.createElement('a');
+  link.download = filename + '.txt';
+  link.href = window.URL.createObjectURL(blob);
+  link.click();
+}
+
+function resetAll() {
+  if(confirm("Are you sure you want to clear all fields?")) {
+    fields.forEach(f => {
+      document.getElementById(f).value = '';
+      localStorage.removeItem(f);
+      updateFieldWordCount(f);
+    });
+    combineDraft();
+  }
+}
+
+// Focus Mode
+function toggleFocus(f) {
+  if(focusedField === f) { exitFocus(); return; }
+  focusedField = f;
+  fields.forEach(field => {
+    const container = document.getElementById(field).parentElement;
+    if(field !== f) container.classList.add('hidden');
+  });
+}
+
+function exitFocus() {
+  focusedField = null;
+  fields.forEach(field => {
+    const container = document.getElementById(field).parentElement;
+    container.classList.remove('hidden');
+  });
+}
+</script>
+
+</body>
+</html>
